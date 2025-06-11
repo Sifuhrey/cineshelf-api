@@ -6,23 +6,10 @@ import { Op } from 'sequelize';
 const CinemaController = {
   index: async (req: Request, res: Response) => {
     try {
-      const userId = req.query.userId as string | undefined;
-    let whereCondition;
-
-    if (userId) {
-      // Both public (userId null) and private (userId = userId)
-      whereCondition = {
-        [Op.or]: [
-          { userId: null },
-          { userId: userId }
-        ]
-      };
-    } else {
-      // Only public (userId null)
-      whereCondition = {
-        userId: null
-      };
-    }
+      const userId = req.query.userId;
+     const whereCondition = userId
+      ? { [Op.or]: [{ userId: null }, { userId }] }
+      : { userId: null };
 
     const cinema = await Cinema.findAll({
       where: whereCondition
