@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import Cinema from "../models/Cinema";
-import ex from 'express';
+import ex from "express";
+import { Op } from "sequelize";
 
 const CinemaController = {
   index: async (req: Request, res: Response) => {
@@ -8,7 +9,10 @@ const CinemaController = {
       const userId = req.query.userId;
       const cinema = await Cinema.findAll({
         where: {
-          userId: userId,
+          [Op.or]: [
+            { userId: userId }, // Private data
+            { userId: null }, // Public data
+          ],
         },
       });
 
@@ -130,7 +134,6 @@ const CinemaController = {
       });
     }
   },
-}
+};
 
 export default CinemaController;
-
