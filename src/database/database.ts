@@ -8,6 +8,8 @@ const dbname = process.env.DBNAME || "default_db";
 const dbuser = process.env.DBUSER || "default_user";
 const dbpassword = process.env.DBPASSWORD || "default_password";
 const database = new Sequelize(dbname, dbuser, dbpassword, {
+     host: process.env.DB_HOST || "127.0.0.1",
+    port: parseInt(process.env.DB_PORT || "3306"),
     dialect: "mysql"
 })
 
