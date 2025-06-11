@@ -1,18 +1,32 @@
 import { Request, Response } from "express";
 import Cinema from "../models/Cinema";
-import ex from "express";
-import { Op } from "sequelize";
+import ex from 'express';
+import { Op } from 'sequelize';
 
 const CinemaController = {
   index: async (req: Request, res: Response) => {
     try {
-      const userId = req.query.userId;
-      const options: any = {};
-      if (userId) {
-        options.where = { userId };
-      }
+      const userId = req.query.userId as string | undefined;
+    let whereCondition;
 
-      const cinema = await Cinema.findAll(options);
+    if (userId) {
+      // Both public (userId null) and private (userId = userId)
+      whereCondition = {
+        [Op.or]: [
+          { userId: null },
+          { userId: userId }
+        ]
+      };
+    } else {
+      // Only public (userId null)
+      whereCondition = {
+        userId: null
+      };
+    }
+
+    const cinema = await Cinema.findAll({
+      where: whereCondition
+    });
 
       return res.status(200).json({
         status: 200,
@@ -132,6 +146,7 @@ const CinemaController = {
       });
     }
   },
-};
+}
 
 export default CinemaController;
+
