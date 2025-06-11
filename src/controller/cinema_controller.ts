@@ -7,13 +7,11 @@ const CinemaController = {
   index: async (req: Request, res: Response) => {
     try {
       const userId = req.query.userId;
-     const whereCondition = userId
-      ? { [Op.or]: [{ userId: undefined }, { userId }] }
-      : { userId: undefined };
-
-    const cinema = await Cinema.findAll({
-      where: whereCondition
-    });
+      const cinema = await Cinema.findAll({
+        where: {
+          userId: userId,
+        },
+      });
 
       return res.status(200).json({
         status: 200,
