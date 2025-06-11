@@ -8,8 +8,8 @@ const CinemaController = {
     try {
       const userId = req.query.userId;
      const whereCondition = userId
-      ? { [Op.or]: [{ userId: null }, { userId }] }
-      : { userId: null };
+      ? { [Op.or]: [{ userId: undefined }, { userId }] }
+      : { userId: undefined };
 
     const cinema = await Cinema.findAll({
       where: whereCondition
