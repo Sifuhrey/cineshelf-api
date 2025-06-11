@@ -8,12 +8,7 @@ const CinemaController = {
     try {
       const userId = req.query.userId;
       const cinema = await Cinema.findAll({
-        where: {
-          [Op.or]: [
-            { userId: userId }, // Private data
-            { userId: null }, // Public data
-          ],
-        },
+         where: userId ? { userId } : undefined,
       });
 
       return res.status(200).json({
