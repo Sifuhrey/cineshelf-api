@@ -44,7 +44,7 @@ const CinemaController = {
       });
     } catch (error: any) {
       return res.status(500).json({
-        status: 200,
+        status: 500,
         message: `Error fetcing cinema: ${error.message}`,
       });
     }
