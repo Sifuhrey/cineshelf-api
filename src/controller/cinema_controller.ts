@@ -14,6 +14,8 @@ const CinemaController = {
       });
 
       return res.status(200).json({
+        status: 200,
+        message: "success",
         cinema: cinema,
       });
     } catch (error: any) {
